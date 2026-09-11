@@ -1,0 +1,27 @@
+{
+  "name": "zoxla-social-media",
+  "version": "1.0.0",
+  "description": "Social media app for ZOXLA band - with live streaming, merch store, stories, and more",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "client": "cd client && npm start"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "http": "^0.0.1-security",
+    "socket.io": "^4.5.4",
+    "mongoose": "^7.0.0",
+    "dotenv": "^16.0.3",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.0",
+    "multer": "^1.4.5-lts.1",
+    "cors": "^2.8.5",
+    "stripe": "^12.0.0",
+    "express-fileupload": "^1.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}

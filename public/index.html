@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZOXLA - Social Media</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="logo">🎵 ZOXLA</div>
+        <div class="nav-links">
+          <a href="#feed">Feed</a>
+          <a href="#stories">Stories</a>
+          <a href="#live">Live</a>
+          <a href="#merch">Merch</a>
+          <a href="#messages">Messages</a>
+          <a href="#profile">Profile</a>
+          <button id="themeBtn" class="theme-btn">🌙 Dark Mode</button>
+          <button id="logoutBtn" class="logout-btn">Logout</button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+      <!-- Stories Section -->
+      <section class="stories-section" id="stories">
+        <div class="stories-container">
+          <div class="add-story">
+            <button onclick="openStoryUpload()">+ Add Story</button>
+          </div>
+          <div id="storiesFeed" class="stories-feed"></div>
+        </div>
+      </section>
+
+      <!-- Live Streams Section -->
+      <section class="livestream-section" id="live">
+        <h2>🔴 Live Now</h2>
+        <div id="liveStreams" class="livestreams-container"></div>
+        <button class="btn-primary" onclick="startLivestream()">Start Live Stream</button>
+      </section>
+
+      <!-- Create Post Section -->
+      <section class="create-post">
+        <h2>Share with ZOXLA Fans!</h2>
+        <form id="postForm">
+          <textarea id="postContent" placeholder="What's new with ZOXLA?" required></textarea>
+          
+          <div class="media-upload">
+            <label>Media Type:</label>
+            <select id="mediaType">
+              <option value="text">Text Only</option>
+              <option value="video">Video</option>
+              <option value="image">Image</option>
+            </select>
+            <input type="file" id="mediaFile" accept="video/*,image/*">
+          </div>
+          
+          <button type="submit" class="btn-primary">Post</button>
+        </form>
+      </section>
+
+      <!-- Feed Section -->
+      <section class="feed" id="feed">
+        <h2>Feed</h2>
+        <div id="postsFeed" class="posts-feed">
+          <!-- Posts will be loaded here -->
+        </div>
+      </section>
+
+      <!-- Merch Section -->
+      <section class="merch-section" id="merch">
+        <h2>🛍️ ZOXLA Merch Store</h2>
+        <div class="merch-filters">
+          <button onclick="filterMerch('all')" class="filter-btn active">All</button>
+          <button onclick="filterMerch('shirt')" class="filter-btn">Shirts</button>
+          <button onclick="filterMerch('hoodie')" class="filter-btn">Hoodies</button>
+          <button onclick="filterMerch('hat')" class="filter-btn">Hats</button>
+          <button onclick="filterMerch('accessories')" class="filter-btn">Accessories</button>
+        </div>
+        <div id="merchGrid" class="merch-grid"></div>
+      </section>
+
+      <!-- Messages Section -->
+      <section class="messages-section" id="messages">
+        <h2>💬 Messages</h2>
+        <div class="messages-container">
+          <div class="conversations-list" id="conversationsList"></div>
+          <div class="chat-window" id="chatWindow">
+            <p>Select a conversation to start messaging</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Livestream Modal -->
+    <div id="livestreamModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeLivestream()">&times;</span>
+        <h3>Start Live Stream</h3>
+        <form id="livestreamForm">
+          <input type="text" id="streamTitle" placeholder="Stream Title" required>
+          <textarea id="streamDescription" placeholder="Tell your fans what you're doing..."></textarea>
+          <button type="submit" class="btn-primary">Go Live!</button>
+        </form>
+        <div id="livestreamPlayer" style="display:none;">
+          <video id="localVideo" autoplay muted></video>
+          <div class="stream-info">
+            <p id="streamViewers">Viewers: 0</p>
+            <button onclick="endLivestream()" class="btn-danger">End Stream</button>
+          </div>
+          <div class="stream-chat">
+            <div id="streamChatMessages" class="chat-messages"></div>
+            <input type="text" id="streamChatInput" placeholder="Say something...">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Story Upload Modal -->
+    <div id="storyModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeStoryModal()">&times;</span>
+        <h3>Create a Story</h3>
+        <form id="storyForm">
+          <input type="file" id="storyMedia" accept="image/*,video/*" required>
+          <textarea id="storyCaption" placeholder="Add a caption..."></textarea>
+          <button type="submit" class="btn-primary">Share Story</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Color Customization Modal -->
+    <div id="themeModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeThemeModal()">&times;</span>
+        <h3>Customize Theme Colors</h3>
+        <div class="color-picker">
+          <label>Primary Color:</label>
+          <input type="color" id="primaryColor" value="#FF6B6B">
+          
+          <label>Secondary Color:</label>
+          <input type="color" id="secondaryColor" value="#4ECDC4">
+          
+          <label>Background Color:</label>
+          <input type="color" id="bgColor" value="#FFFFFF">
+          
+          <button class="btn-primary" id="saveTheme">Save Theme</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Merch Details Modal -->
+    <div id="merchModal" class="modal">
+      <div class="modal-content merch-details">
+        <span class="close" onclick="closeMerchModal()">&times;</span>
+        <div id="merchDetails"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
